@@ -1,17 +1,21 @@
 ---
-{% yield replacements %}
+interface Props {
+  title?: string;
+}
+
+const { title = "Status Page - Reigreen Group" } = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Status Page - Reigreen Group</title>
+    <title>{title}</title>
     <meta name="description" content="Estado de los servicios de Reigreen Group" />
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased">
     <main>
-      {% yield replacements %}
+      <slot />
     </main>
   </body>
 </html>
