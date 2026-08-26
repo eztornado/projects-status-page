@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^11.1.4",
+    "@astrojs/react": "^6.0.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mantine/core": "^9.5.2",

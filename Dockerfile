@@ -5,7 +5,11 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM node:22-slim
+WORKDIR /app
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/dist ./dist
+RUN npm install --production
+EXPOSE 4321
+ENV PORT=4321
+CMD ["node", "./dist/server/entry.mjs"]
