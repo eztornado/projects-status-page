@@ -15,21 +15,41 @@ const { title = "Status Page - Reigreen Group" } = Astro.props;
     <link rel="stylesheet" href="/styles/global.css" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       main {
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+        padding: 2rem 1rem;
       }
 
-      /* Add animated gradient background */
+      /* Modern dark theme colors */
+      :root {
+        --glass-bg: rgba(255, 255, 255, 0.08);
+        --glass-border: rgba(255, 255, 255, 0.15);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --text-muted: rgba(255, 255, 255, 0.5);
+        --status-green: #4ade80;
+        --status-yellow: #facc15;
+        --status-red: #f87171;
+        --status-blue: #60a5fa;
+      }
+
+      /* Animated gradient overlay */
       body::before {
         content: '';
         position: fixed;
@@ -37,39 +57,62 @@ const { title = "Status Page - Reigreen Group" } = Astro.props;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        z-index: -1;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 20s ease infinite;
+        z-index: -2;
       }
 
       @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
+        0%, 100% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
       }
 
-      /* Add floating elements */
+      /* Floating orbs for depth */
       body::after {
         content: '';
         position: fixed;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, transparent 70%);
         border-radius: 50%;
-        top: -250px;
-        right: -250px;
-        animation: float 20s ease-in-out infinite;
+        top: -300px;
+        right: -200px;
+        animation: float 25s ease-in-out infinite;
         z-index: -1;
       }
 
       @keyframes float {
-        0%, 100% { transform: translate(0, 0); }
-        50% { transform: translate(-50px, 50px); }
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translate(-60px, 40px) scale(1.1);
+          opacity: 0.8;
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
       }
     </style>
   </head>
-  <body class="text-slate-900 antialiased">
+  <body>
     <main>
       <slot />
     </main>
