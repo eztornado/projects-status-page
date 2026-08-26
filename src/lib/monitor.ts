@@ -17,7 +17,7 @@ export async function checkService(service: Service): Promise<ServiceStatus> {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
     const response = await fetch(service.url, {
-      method: 'HEAD',
+      method: 'GET',
       signal: controller.signal,
       redirect: 'follow',
     });
