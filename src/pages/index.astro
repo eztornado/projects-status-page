@@ -1,8 +1,4 @@
 ---
-
----
-
----
 const services = [
   { name: "API Reigreen", url: "https://api.reigreengroup.com" },
   { name: "Clientes Reigreen", url: "https://clientes.reigreengroup.com" },
@@ -70,7 +66,7 @@ const services = [
             uptimeEl.textContent = 'Offline';
           }
 
-          return { ...service, status: 'down', uptime = 'Offline' };
+          return { ...service, status: 'down', uptime: 'Offline' };
         }
       }));
     }
@@ -79,4 +75,3 @@ const services = [
     checkStatus();
   </script>
 </Layout>
-
