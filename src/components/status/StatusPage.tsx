@@ -48,7 +48,7 @@ export default function StatusPage() {
 
   const getStatusIcon = (status: string) => {
     const props: Partial<ThemeIconProps> = {
-      size: 40,
+      size: 32,
       variant: 'light',
       radius: 'xl',
     };
@@ -56,13 +56,13 @@ export default function StatusPage() {
     if (status === 'up') {
       return (
         <ThemeIcon {...props} style={{ background: 'rgba(74, 222, 128, 0.15)', color: '#4ade80' }}>
-          <IconCheck size={20} />
+          <IconCheck size={16} />
         </ThemeIcon>
       );
     }
     return (
       <ThemeIcon {...props} style={{ background: 'rgba(248, 113, 113, 0.15)', color: '#f87171' }}>
-        <IconX size={20} />
+        <IconX size={16} />
       </ThemeIcon>
     );
   };
@@ -124,28 +124,28 @@ export default function StatusPage() {
       <Container size="lg" mb="xl">
         <div style={{
           background: 'rgba(255, 255, 255, 0.08)',
-          borderRadius: '16px',
-          padding: '32px',
+          borderRadius: '12px',
+          padding: '20px',
           border: '1px solid rgba(255, 255, 255, 0.15)',
           backdropFilter: 'blur(10px)',
         }}>
-          <Stack gap="lg">
+          <Stack gap="md">
             {/* Header */}
             <Group justify="space-between" align="center" wrap="nowrap">
-              <Group gap="xl">
+              <Group gap="md">
                 <div style={{
                   background: 'rgba(96, 165, 250, 0.2)',
-                  borderRadius: '12px',
-                  padding: '12px',
+                  borderRadius: '10px',
+                  padding: '8px',
                   border: '1px solid rgba(96, 165, 250, 0.3)'
                 }}>
-                  <IconCloud size={32} style={{ color: '#60a5fa' }} />
+                  <IconCloud size={24} style={{ color: '#60a5fa' }} />
                 </div>
-                <Stack gap={4}>
-                  <Title order={1} size="h1" style={{ color: 'var(--text-primary)', fontSize: '2rem' }}>
+                <Stack gap={0}>
+                  <Title order={1} size="h1" style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>
                     System Status
                   </Title>
-                  <Text style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+                  <Text style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                     Real-time monitoring for Reigreen Group services
                   </Text>
                 </Stack>
@@ -154,8 +154,8 @@ export default function StatusPage() {
               <Group gap="xs">
                 <MantineTooltip label="Refresh Status">
                   <ActionIcon
-                    size="xl"
-                    radius="xl"
+                    size="lg"
+                    radius="lg"
                     variant="light"
                     onClick={refetch}
                     style={{
@@ -163,7 +163,7 @@ export default function StatusPage() {
                       border: '1px solid rgba(255, 255, 255, 0.15)'
                     }}
                   >
-                    <IconRefresh size={20} style={{ color: 'var(--text-primary)' }} />
+                    <IconRefresh size={16} style={{ color: 'var(--text-primary)' }} />
                   </ActionIcon>
                 </MantineTooltip>
 
@@ -173,8 +173,8 @@ export default function StatusPage() {
                     : systemStatus.status === 'degraded'
                     ? 'rgba(250, 204, 21, 0.2)'
                     : 'rgba(248, 113, 113, 0.2)',
-                  borderRadius: '12px',
-                  padding: '8px 16px',
+                  borderRadius: '10px',
+                  padding: '6px 12px',
                   border: `1px solid ${
                     systemStatus.status === 'operational'
                       ? 'rgba(74, 222, 128, 0.4)'
@@ -184,17 +184,17 @@ export default function StatusPage() {
                   }`,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px'
+                  gap: '6px'
                 }}>
                   {systemStatus.status === 'operational' ? (
-                    <IconActivity size={20} style={{ color: '#4ade80' }} />
+                    <IconActivity size={16} style={{ color: '#4ade80' }} />
                   ) : (
-                    <IconAlertCircle size={20} style={{ color: systemStatus.status === 'degraded' ? '#facc15' : '#f87171' }} />
+                    <IconAlertCircle size={16} style={{ color: systemStatus.status === 'degraded' ? '#facc15' : '#f87171' }} />
                   )}
                   <Text style={{
                     color: systemStatus.status === 'operational' ? '#4ade80' : systemStatus.status === 'degraded' ? '#facc15' : '#f87171',
                     fontWeight: 600,
-                    fontSize: '0.9rem'
+                    fontSize: '0.8rem'
                   }}>
                     {systemStatus.status === 'operational' ? 'OPERATIONAL' : systemStatus.status === 'degraded' ? 'DEGRADED' : 'DOWN'}
                   </Text>
@@ -209,21 +209,21 @@ export default function StatusPage() {
               <Grid.Col span={{ base: 12, sm: 4 }}>
                 <div style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '12px',
-                  padding: '16px',
+                  borderRadius: '10px',
+                  padding: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  <Stack gap={8}>
+                  <Stack gap={6}>
                     <Text size="xs" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
                       Uptime
                     </Text>
-                    <Text size="xl" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.8rem' }}>
+                    <Text size="lg" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>
                       {systemStatus.uptime}%
                     </Text>
                     <Progress
                       value={systemStatus.uptime}
                       color={systemStatus.status === 'operational' ? '#4ade80' : systemStatus.status === 'degraded' ? '#facc15' : '#f87171'}
-                      size="sm"
+                      size="xs"
                       radius="md"
                     />
                   </Stack>
@@ -233,18 +233,18 @@ export default function StatusPage() {
               <Grid.Col span={{ base: 12, sm: 4 }}>
                 <div style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '12px',
-                  padding: '16px',
+                  borderRadius: '10px',
+                  padding: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  <Stack gap={8}>
+                  <Stack gap={6}>
                     <Text size="xs" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
                       Active Services
                     </Text>
-                    <Text size="xl" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.8rem' }}>
+                    <Text size="lg" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>
                       {services.filter(s => s.status === 'up').length} / {services.length}
                     </Text>
-                    <Text size="sm" style={{ color: 'var(--text-secondary)' }}>
+                    <Text size="xs" style={{ color: 'var(--text-secondary)' }}>
                       {services.filter(s => s.status === 'up').length} online, {services.filter(s => s.status === 'down').length} offline
                     </Text>
                   </Stack>
@@ -254,20 +254,20 @@ export default function StatusPage() {
               <Grid.Col span={{ base: 12, sm: 4 }}>
                 <div style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '12px',
-                  padding: '16px',
+                  borderRadius: '10px',
+                  padding: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  <Stack gap={8}>
+                  <Stack gap={6}>
                     <Text size="xs" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
                       Avg Latency
                     </Text>
-                    <Text size="xl" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.8rem' }}>
+                    <Text size="lg" fw={700} style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>
                       {services.filter(s => s.status === 'up').length > 0
                         ? Math.round(services.filter(s => s.status === 'up').reduce((acc, s) => acc + s.latency, 0) / services.filter(s => s.status === 'up').length)
                         : 0}ms
                     </Text>
-                    <Text size="sm" style={{ color: 'var(--text-secondary)' }}>
+                    <Text size="xs" style={{ color: 'var(--text-secondary)' }}>
                       Across all services
                     </Text>
                   </Stack>
@@ -280,14 +280,14 @@ export default function StatusPage() {
 
       {/* Services Grid */}
       <Container size="lg" mb="xl">
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="lg">
           {services.map((service, index) => (
             <div
               key={index}
               style={{
                 background: 'rgba(255, 255, 255, 0.08)',
-                borderRadius: '16px',
-                padding: '24px',
+                borderRadius: '12px',
+                padding: '16px',
                 border: '1px solid rgba(255, 255, 255, 0.15)',
                 backdropFilter: 'blur(10px)',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -306,24 +306,24 @@ export default function StatusPage() {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
               }}
             >
-              <Stack gap="lg">
+              <Stack gap="md">
                 {/* Header */}
                 <Group justify="space-between" align="flex-start">
-                  <Stack gap={8}>
+                  <Stack gap={4}>
                     <Group gap="xs">
                       <div style={{
                         background: service.status === 'up' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)',
-                        borderRadius: '10px',
-                        padding: '8px',
+                        borderRadius: '8px',
+                        padding: '6px',
                         border: service.status === 'up' ? '1px solid rgba(74, 222, 128, 0.4)' : '1px solid rgba(248, 113, 113, 0.4)'
                       }}>
-                        <IconApi size={18} style={{ color: service.status === 'up' ? '#4ade80' : '#f87171' }} />
+                        <IconApi size={14} style={{ color: service.status === 'up' ? '#4ade80' : '#f87171' }} />
                       </div>
-                      <Text fw={700} size="lg" style={{ color: 'var(--text-primary)' }}>
+                      <Text fw={600} size="md" style={{ color: 'var(--text-primary)' }}>
                         {service.name}
                       </Text>
                     </Group>
-                    <Text size="sm" style={{ color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
+                    <Text size="xs" style={{ color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
                       {service.url}
                     </Text>
                   </Stack>
@@ -333,11 +333,11 @@ export default function StatusPage() {
                 <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
                 {/* Status & Performance */}
-                <Stack gap="md">
+                <Stack gap="sm">
                   <Group gap="xs">
                     <div style={{
-                      padding: '6px 14px',
-                      borderRadius: '8px',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
                       background: service.status === 'up'
                         ? 'rgba(74, 222, 128, 0.2)'
                         : 'rgba(248, 113, 113, 0.2)',
@@ -346,16 +346,16 @@ export default function StatusPage() {
                         : '1px solid rgba(248, 113, 113, 0.4)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px'
+                      gap: '4px'
                     }}>
                       {service.status === 'up' ? (
-                        <IconCheck size={14} style={{ color: '#4ade80' }} />
+                        <IconCheck size={12} style={{ color: '#4ade80' }} />
                       ) : (
-                        <IconX size={14} style={{ color: '#f87171' }} />
+                        <IconX size={12} style={{ color: '#f87171' }} />
                       )}
-                      <Text size="sm" fw={600} style={{
+                      <Text size="xs" fw={600} style={{
                         color: service.status === 'up' ? '#4ade80' : '#f87171',
-                        fontSize: '0.8rem'
+                        fontSize: '0.7rem'
                       }}>
                         {service.status === 'up' ? 'ONLINE' : 'OFFLINE'}
                       </Text>
@@ -363,14 +363,14 @@ export default function StatusPage() {
 
                     {service.status === 'up' && (
                       <div style={{
-                        padding: '6px 14px',
-                        borderRadius: '8px',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
                         background: `rgba(${getLatencyColor(service.latency) === '#4ade80' ? '74, 222, 128' : getLatencyColor(service.latency) === '#facc15' ? '250, 204, 21' : '248, 113, 113'}, 0.15)`,
                         border: `1px solid rgba(${getLatencyColor(service.latency) === '#4ade80' ? '74, 222, 128' : getLatencyColor(service.latency) === '#facc15' ? '250, 204, 21' : '248, 113, 113'}, 0.3)`,
                       }}>
-                        <Text size="sm" fw={500} style={{
+                        <Text size="xs" fw={500} style={{
                           color: getLatencyColor(service.latency),
-                          fontSize: '0.75rem'
+                          fontSize: '0.65rem'
                         }}>
                           {getLatencyLabel(service.latency)}
                         </Text>
@@ -383,15 +383,15 @@ export default function StatusPage() {
                     <Stack gap="xs">
                       <Group gap="xs" justify="space-between">
                         <Group gap="xs">
-                          <IconClock size={16} style={{ color: 'var(--text-muted)' }} />
-                          <Text size="sm" style={{ color: 'var(--text-secondary)' }}>Latency:</Text>
+                          <IconClock size={12} style={{ color: 'var(--text-muted)' }} />
+                          <Text size="xs" style={{ color: 'var(--text-secondary)' }}>Latency:</Text>
                         </Group>
-                        <Text size="sm" fw={700} style={{ color: getLatencyColor(service.latency) }}>
+                        <Text size="xs" fw={700} style={{ color: getLatencyColor(service.latency) }}>
                           {service.latency}ms
                         </Text>
                       </Group>
 
-                      <div style={{ position: 'relative', height: '6px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '4px', overflow: 'hidden' }}>
+                      <div style={{ position: 'relative', height: '4px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '3px', overflow: 'hidden' }}>
                         <div
                           style={{
                             position: 'absolute',
@@ -401,7 +401,7 @@ export default function StatusPage() {
                             width: `${Math.min(service.latency / 5, 100)}%`,
                             background: getLatencyColor(service.latency),
                             transition: 'width 0.3s ease',
-                            borderRadius: '4px',
+                            borderRadius: '3px',
                           }}
                         />
                       </div>
@@ -425,42 +425,42 @@ export default function StatusPage() {
       <Container size="lg" mb="xl">
         <div style={{
           background: 'rgba(255, 255, 255, 0.08)',
-          borderRadius: '16px',
-          padding: '32px',
+          borderRadius: '12px',
+          padding: '20px',
           border: '1px solid rgba(255, 255, 255, 0.15)',
           backdropFilter: 'blur(10px)',
         }}>
-          <Stack gap="lg">
+          <Stack gap="md">
             <Group justify="space-between" align="center">
-              <Group gap="md">
+              <Group gap="sm">
                 <div style={{
                   background: 'rgba(96, 165, 250, 0.2)',
-                  borderRadius: '10px',
-                  padding: '10px',
+                  borderRadius: '8px',
+                  padding: '6px',
                   border: '1px solid rgba(96, 165, 250, 0.3)'
                 }}>
-                  <IconChartBar size={20} style={{ color: '#60a5fa' }} />
+                  <IconChartBar size={16} style={{ color: '#60a5fa' }} />
                 </div>
-                <Title order={3} style={{ color: 'var(--text-primary)' }}>Latency History - API</Title>
+                <Title order={3} style={{ color: 'var(--text-primary)', fontSize: '1.2rem' }}>Latency History - API</Title>
               </Group>
               <Group gap="xs">
                 <div style={{
-                  padding: '6px 12px',
-                  borderRadius: '8px',
+                  padding: '4px 8px',
+                  borderRadius: '6px',
                   background: 'rgba(74, 222, 128, 0.15)',
                   border: '1px solid rgba(74, 222, 128, 0.3)'
                 }}>
-                  <Text size="xs" style={{ color: '#4ade80', fontSize: '0.75rem', fontWeight: 600 }}>
+                  <Text size="xs" style={{ color: '#4ade80', fontSize: '0.65rem', fontWeight: 600 }}>
                     LAST 20 CHECKS
                   </Text>
                 </div>
                 <div style={{
-                  padding: '6px 12px',
-                  borderRadius: '8px',
+                  padding: '4px 8px',
+                  borderRadius: '6px',
                   background: 'rgba(96, 165, 250, 0.15)',
                   border: '1px solid rgba(96, 165, 250, 0.3)'
                 }}>
-                  <Text size="xs" style={{ color: '#60a5fa', fontSize: '0.75rem', fontWeight: 600 }}>
+                  <Text size="xs" style={{ color: '#60a5fa', fontSize: '0.65rem', fontWeight: 600 }}>
                     REAL-TIME
                   </Text>
                 </div>
@@ -469,7 +469,7 @@ export default function StatusPage() {
 
             <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
-            <Box style={{ height: '400px' }}>
+            <Box style={{ height: '350px' }}>
               {chartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
