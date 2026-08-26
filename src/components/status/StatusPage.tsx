@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Title, Text, Grid, Card, Badge, Group, Stack } from '@mantine/core';
+import { Container, Title, Text, Grid, Card, Badge, Group, Stack, MantineProvider } from '@mantine/core';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { useServiceMonitor } from '../../hooks/useServiceMonitor';
 
@@ -15,27 +15,19 @@ export default function StatusPage() {
     }));
   }, [history]);
 
-  if (loading && services.length === 0) {
-    return (
-      <Container size="md" py="xl">
-        <Stack align="center">
-          <Text size="lg">Cargando estado de servicios...</Text>
-        </Stack>
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container size="md" py="xl">
-        <Stack align="center">
-          <Text c="red" size="lg">Error: {error}</Text>
-        </Stack>
-      </Container>
-    );
-  }
-
-  return (
+  const content = loading && services.length === 0 ? (
+    <Container size="md" py="xl">
+      <Stack align="center">
+        <Text size="lg">Cargando estado de servicios...</Text>
+      </Stack>
+    </Container>
+  ) : error ? (
+    <Container size="md" py="xl">
+      <Stack align="center">
+        <Text c="red" size="lg">Error: {error}</Text>
+      </Stack>
+    </Container>
+  ) : (
     <Container size="md" py="xl">
       <Stack align="center" mb="xl">
         <Title order={1}>Estado del Sistema</Title>
@@ -96,5 +88,11 @@ export default function StatusPage() {
         </Card>
       </div>
     </Container>
+  );
+
+  return (
+    <MantineProvider>
+      {content}
+    </MantineProvider>
   );
 }
