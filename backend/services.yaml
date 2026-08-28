@@ -26,8 +26,7 @@ services:
   - id: llamacpp
     name: llama.cpp (red local)
     type: http
-    url: https://cos-alicantr.netbird.vpn:8080/health
-    verify_tls: false
+    url: http://cos-alicante.netbird.vpn:8080/health
   - id: base_datos
     name: Base de datos (red local)
     type: mysql

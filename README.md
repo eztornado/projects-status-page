@@ -21,7 +21,7 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 | OMIE | https://omie.reigreengroup.com | HTTP |
 | OCR | https://ocr.reigreengroup.com | HTTP |
 | Magika | https://magika.reigreengroup.com | HTTP |
-| llama.cpp (red local) | https://cos-alicantr.netbird.vpn:8080/health | HTTP (TLS sin verificar) |
+| llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP |
 | Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL |
 
 ## Añadir un servicio
