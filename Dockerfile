@@ -1,15 +1,23 @@
-FROM node:22-slim AS build
-WORKDIR /app
-COPY package*.json ./
+# --- Etapa 1: build del frontend ---
+FROM node:22-alpine AS frontend
+WORKDIR /build
+COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm install
-COPY . .
+COPY frontend/ ./
 RUN npm run build
 
-FROM node:22-slim
+# --- Etapa 2: runtime Python ---
+FROM python:3.12-slim
 WORKDIR /app
-COPY --from=build /app/package*.json ./
-COPY --from=build /app/dist ./dist
-RUN npm install --production
-EXPOSE 4321
-ENV PORT=4321
-CMD ["node", "./dist/server/entry.mjs"]
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/ ./backend/
+COPY --from=frontend /build/dist ./static
+ENV PORT=8000 \
+    DATA_DIR=/data \
+    PYTHONUNBUFFERED=1
+VOLUME /data
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD python -c "import os,urllib.request;urllib.request.urlopen(f'http://127.0.0.1:{os.environ.get(\"PORT\",8000)}/api/health')"
+CMD ["sh", "-c", "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT}"]

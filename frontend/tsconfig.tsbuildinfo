@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/api/client.ts","./src/components/LatencyChart.tsx","./src/components/ServiceCard.tsx","./src/components/UptimeBar.tsx","./src/hooks/useStatus.ts"],"version":"5.6.3"}

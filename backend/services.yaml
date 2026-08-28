@@ -1,0 +1,39 @@
+services:
+  - id: web
+    name: Web
+    type: http
+    url: https://reigreengroup.com
+  - id: api
+    name: API
+    type: http
+    url: https://api.reigreengroup.com
+  - id: clientes
+    name: Portal de clientes
+    type: http
+    url: https://clientes.reigreengroup.com
+  - id: omie
+    name: OMIE
+    type: http
+    url: https://omie.reigreengroup.com
+  - id: ocr
+    name: OCR
+    type: http
+    url: https://ocr.reigreengroup.com
+  - id: magika
+    name: Magika
+    type: http
+    url: https://magika.reigreengroup.com
+  - id: llamacpp
+    name: llama.cpp (red local)
+    type: http
+    url: https://cos-alicantr.netbird.vpn:8080/health
+    verify_tls: false
+  - id: base_datos
+    name: Base de datos (red local)
+    type: mysql
+    host: tornadocore.netbird.vpn
+    port: 3306
+    credentials_env:
+      user: MYSQL_USER
+      password: MYSQL_PASSWORD
+      database: MYSQL_DATABASE

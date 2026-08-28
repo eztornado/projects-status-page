@@ -1,0 +1,18 @@
+services:
+  status-page:
+    build: .
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - status-data:/data
+    environment:
+      - PORT=8000
+      - MYSQL_USER=${MYSQL_USER:-}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-}
+      - CHECK_INTERVAL_MINUTES=${CHECK_INTERVAL_MINUTES:-5}
+      - RETENTION_DAYS=${RETENTION_DAYS:-7}
+    restart: unless-stopped
+
+volumes:
+  status-data:
