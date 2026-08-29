@@ -27,6 +27,18 @@ services:
     name: llama.cpp (red local)
     type: http
     url: http://cos-alicante.netbird.vpn:8080/health
+  - id: n8n
+    name: N8N
+    type: http
+    url: https://n8n.reigreengroup.com
+  - id: redes
+    name: Gestión Redes Sociales
+    type: http
+    url: http://redes.reigreengroup.com
+  - id: clawbot
+    name: ClawBot (red local)
+    type: http
+    url: http://clawbot.netbird.vpn
   - id: base_datos
     name: Base de datos (red local)
     type: mysql

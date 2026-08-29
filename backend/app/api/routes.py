@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ..config import settings
 from ..database import get_session
 from ..models import CheckResult, Service, utcnow
+from ..services_config import display_url, load_services
 from ..schemas import (
     HistoryPoint,
     LatencyPoint,
@@ -27,6 +28,7 @@ async def get_status(session: AsyncSession = Depends(get_session)) -> StatusResp
     now = utcnow()
     since_24h = now - timedelta(hours=24)
     since_7d = now - timedelta(days=7)
+    urls = {cfg.id: display_url(cfg) for cfg in load_services()}
 
     result: list[ServiceStatus] = []
     for svc in services:
@@ -54,6 +56,7 @@ async def get_status(session: AsyncSession = Depends(get_session)) -> StatusResp
                 id=svc.id,
                 name=svc.name,
                 type=svc.type,
+                url=urls.get(svc.id, ""),
                 status="up" if (last and last.up) else "down",
                 latency_ms=last.latency_ms if last and last.up else None,
                 last_checked=aware(last.ts) if last else None,

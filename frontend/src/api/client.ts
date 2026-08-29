@@ -13,6 +13,7 @@ export interface ServiceStatus {
   id: string;
   name: string;
   type: string;
+  url: string;
   status: "up" | "down";
   latency_ms: number | null;
   last_checked: string | null;

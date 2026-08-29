@@ -28,6 +28,12 @@ class MysqlService(BaseModel):
 ServiceConfig = HttpService | MysqlService
 
 
+def display_url(cfg: ServiceConfig) -> str:
+    if isinstance(cfg, HttpService):
+        return cfg.url
+    return f"mysql://{cfg.host}:{cfg.port}"
+
+
 class ServicesFile(BaseModel):
     services: list[ServiceConfig]
 

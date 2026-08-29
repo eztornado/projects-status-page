@@ -11,6 +11,11 @@ export function ServiceCard({ service }: { service: ServiceStatus }) {
           {up ? "Operativo" : "Caído"}
         </span>
       </div>
+      {service.url && (
+        <div className="card-url" title={service.url}>
+          {service.url}
+        </div>
+      )}
       <div className="latency">
         {up && service.latency_ms != null ? (
           <>

@@ -18,6 +18,7 @@ class ServiceStatus(BaseModel):
     id: str
     name: str
     type: str
+    url: str
     status: str  # "up" | "down"
     latency_ms: int | None
     last_checked: datetime | None
