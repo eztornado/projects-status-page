@@ -16,5 +16,13 @@ class Settings(BaseSettings):
     mysql_password: str = ""
     mysql_database: str = ""
 
+    # Variables de Telegram
+    telegram_bot_token: str = ""
+    telegram_chat_id: str = ""
+    telegram_enabled: bool = False
+
+    # Webhook de Coolify para notificaciones
+    coolify_webhook_url: str = ""
+
 
 settings = Settings()

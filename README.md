@@ -63,7 +63,13 @@ Sin credenciales el check MySQL se limita a verificar la conexión TCP.
 | `DATA_DIR` | `/data` | Dónde se guarda `status.db` (montar volumen) |
 | `CHECK_INTERVAL_MINUTES` | `5` | Intervalo de comprobación |
 | `RETENTION_DAYS` | `7` | Días de retención del histórico |
-| `MYSQL_USER` / `MYSQL_PASSWORD` / `MYSQL_DATABASE` | vacío | Credenciales del check MySQL |
+| `MYSQL_USER` | vacío | Usuario MySQL (opcional) |
+| `MYSQL_PASSWORD` | vacío | Contraseña MySQL (opcional) |
+| `MYSQL_DATABASE` | vacío | Base de datos MySQL (opcional) |
+| **`TELEGRAM_ENABLED`** | `false` | Habilitar notificaciones por Telegram |
+| **`TELEGRAM_BOT_TOKEN`** | (vacío) | Token del bot de Telegram |
+| **`TELEGRAM_CHAT_ID`** | (vacío) | ID del chat/grupo de Telegram |
+| `COOLIFY_WEBHOOK_URL` | (vacío) | URL del webhook de Coolify (opcional) |
 
 Ver `.env.example`.
 

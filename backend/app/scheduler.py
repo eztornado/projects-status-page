@@ -10,6 +10,7 @@ from .database import SessionLocal
 from .models import CheckResult, Service, utcnow
 from .services_config import load_services
 from .checkers import run_check
+from .telegram import send_telegram_notification
 
 logger = logging.getLogger(__name__)
 
@@ -69,10 +70,61 @@ async def run_all_checks() -> None:
                 )
             )
         await session.commit()
+
+        # Enviar notificaciones por Telegram
+        await send_telegram_notifications(session, configured, outcomes, now)
+
     await cleanup_old_checks()
-    logger.info(
-        "Ronda de checks completada: %d servicios", len(configured)
-    )
+    logger.info("Ronda de checks completada: %d servicios", len(configured))
+
+
+async def send_telegram_notifications(session, configured, outcomes, now):
+    """Enviar notificaciones de Telegram solo cuando hay cambios de estado."""
+    # Buscar el resultado anterior para cada servicio (máximo 2 rondas atrás)
+    from sqlalchemy import and_
+    rows = await session.execute(select(CheckResult).order_by(CheckResult.service_id, CheckResult.ts.asc()))
+    results_list = list(rows.scalars())
+
+    # Construir diccionario por servicio_id -> lista de resultados
+    service_results = {}
+    for row in results_list:
+        sid = str(row.service_id)
+        if sid not in service_results:
+            service_results[sid] = []
+        service_results[sid].append(row)
+
+    for cfg, outcome in zip(configured, outcomes):
+        sid = str(cfg.id)
+        if sid not in service_results:
+            continue
+
+        # Ordenar por tiempo (reciente primero)
+        service_results[sid].sort(key=lambda r: r.ts, reverse=True)
+
+        # Último y penúltimo resultado
+        try:
+            last = service_results[sid][0]
+            prev = service_results[sid][1] if len(service_results[sid]) > 1 else None
+        except IndexError:
+            continue
+
+        last_up = last.up if hasattr(last, 'up') else None
+        prev_up = prev.up if prev and hasattr(prev, 'up') else None
+
+        if last_up != prev_up and telegram_config.telegram_enabled and telegram_config.telegram_bot_token:
+            if last.up:
+                status = "se ha reactivado"
+            else:
+                status = "ha caído"
+
+            msg = f"""⚠️ <b>{cfg.name}</b> {status}
+
+• <b>Estado:</b> {'ONLINE' if last.up else 'OFFLINE'}
+• <b>Tiempo:</b> {last.ts.strftime('%Y-%m-%d %H:%M:%S')}
+• <b>URL:</b> {cfg.url if hasattr(cfg, 'url') else cfg.host if hasattr(cfg, 'host') else 'N/A'}
+"""
+            webhook_url = getattr(settings, 'coolify_webhook_url', None)
+            await send_telegram_notification(msg, last, session, webhook_url)
 
 
 def start_scheduler() -> AsyncIOScheduler:

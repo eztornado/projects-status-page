@@ -15,7 +15,11 @@ COPY backend/ ./backend/
 COPY --from=frontend /build/dist ./static
 ENV PORT=8000 \
     DATA_DIR=/data \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-} \
+    TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-} \
+    TELEGRAM_ENABLED=${TELEGRAM_ENABLED:-false} \
+    COOLIFY_WEBHOOK_URL=${COOLIFY_WEBHOOK_URL:-}
 VOLUME /data
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
