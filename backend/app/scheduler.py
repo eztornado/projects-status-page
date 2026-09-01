@@ -10,7 +10,7 @@ from .database import SessionLocal
 from .models import CheckResult, Service, utcnow
 from .services_config import load_services
 from .checkers import run_check
-from .telegram import send_telegram_notification
+from .telegram import send_telegram_notification, telegram_config
 
 logger = logging.getLogger(__name__)
 
