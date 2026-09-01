@@ -88,7 +88,8 @@ async def send_telegram_notification(
 def format_notification_message(message: str, check_result: CheckResult) -> str:
     """Formatea el mensaje con estilo para Telegram."""
     now = check_result.ts.strftime("%Y-%m-%d %H:%M:%S")
-    service_name = check_result.service.name if hasattr(check_result.service, 'name') else check_result.service_id
+    service = getattr(check_result, 'service', None)
+    service_name = service.name if service is not None else check_result.service_id
 
     if check_result.up:
         status_emoji = "✅"
