@@ -16,6 +16,7 @@ export function ServiceCard({ service }: { service: ServiceStatus }) {
           {service.url}
         </div>
       )}
+      {service.description && <div className="card-desc">{service.description}</div>}
       <div className="latency">
         {up && service.latency_ms != null ? (
           <>
@@ -32,6 +33,16 @@ export function ServiceCard({ service }: { service: ServiceStatus }) {
           {service.uptime_7d != null ? `${service.uptime_7d.toFixed(2)} % · 7 días` : "—"}
         </span>
       </div>
+      {service.docs_url && (
+        <a
+          className="card-docs"
+          href={service.docs_url}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Documentación ↗
+        </a>
+      )}
     </div>
   );
 }

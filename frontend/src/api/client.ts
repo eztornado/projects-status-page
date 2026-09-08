@@ -14,6 +14,8 @@ export interface ServiceStatus {
   name: string;
   type: string;
   url: string;
+  docs_url: string | null;
+  description: string | null;
   status: "up" | "down";
   latency_ms: number | null;
   last_checked: string | null;

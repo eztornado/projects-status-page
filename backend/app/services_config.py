@@ -12,6 +12,7 @@ class HttpService(BaseModel):
     type: Literal["http"]
     url: str
     verify_tls: bool = True
+    docs_url: str | None = None
     description: str | None = None
 
 
@@ -21,6 +22,7 @@ class MysqlService(BaseModel):
     type: Literal["mysql"]
     host: str
     port: int = 3306
+    docs_url: str | None = None
     description: str | None = None
     credentials_env: dict[str, str] = Field(default_factory=dict)
 

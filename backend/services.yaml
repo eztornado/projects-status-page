@@ -3,60 +3,90 @@ services:
     name: Web
     type: http
     url: https://reigreengroup.com
+    description: Web corporativa en React (Mantine), servida tras Cloudflare.
   - id: api
     name: API
     type: http
     url: https://api.reigreengroup.com
+    description: >-
+      API Laravel 12 (PHP 8.2) con Sanctum y RBAC; borde MCP y migración
+      progresiva a Go (go-api).
   - id: clientes
     name: Portal de clientes
     type: http
     url: https://clientes.reigreengroup.com
+    description: Portal de clientes en React v2 (Mantine) sobre la API de Reigreengroup.
   - id: omie
     name: OMIE
     type: http
     url: https://omie.reigreengroup.com
+    description: >-
+      Dashboard Flask que consulta la API de REE (precios spot y PVPC), con
+      SQLite y alertas por Telegram.
   - id: ocr
     name: OCR
     type: http
     url: https://ocr.reigreengroup.com
+    docs_url: https://ocr.reigreengroup.com/docs
+    description: Servicio FastAPI de OCR asíncrono; expone su API OpenAPI interactiva.
   - id: magika
     name: Magika
     type: http
     url: https://magika.reigreengroup.com
+    docs_url: https://magika.reigreengroup.com/docs
+    description: Envoltorio FastAPI sobre Magika (Google) para detectar tipos de fichero.
   - id: llamacpp
     name: llama.cpp (red local)
     type: http
     url: http://cos-alicante.netbird.vpn:8080/health
+    docs_url: https://github.com/ggml-org/llama.cpp
+    description: Servidor de inferencia LLM local (llama.cpp) en la red NetBird.
   - id: n8n
     name: N8N
     type: http
     url: https://n8n.reigreengroup.com
+    docs_url: https://docs.n8n.io
+    description: Automatización de flujos de trabajo self-hosted.
   - id: redes
     name: Gestión Redes Sociales
     type: http
-    url: http://redes.reigreengroup.com
+    url: https://redes.reigreengroup.com
+    docs_url: https://github.com/brightbeanxyz/brightbean-studio
+    description: BrightBean Studio self-hosted para programar y publicar en redes sociales.
   - id: listmonk
     name: Listmonk
     type: http
     url: https://listmonk.reigreengroup.com
-  - id: coolify
-    name: Panel Coolify
-    type: http
-    url: https://panel.reigreengroup.com
+    docs_url: https://listmonk.app/docs
+    description: Gestor de newsletters y campañas self-hosted.
   - id: clawbot
     name: ClawBot (red local)
     type: http
     url: http://clawbot.netbird.vpn:3001
+    docs_url: https://github.com/siteboon/claudecodeui
+    description: >-
+      CloudCLI UI: interfaz web para agentes de código (Claude Code, Codex…)
+      en la red NetBird.
   - id: netbird
     name: NetBird VPN (red local)
     type: http
     url: http://coordinador.netbird.vpn
     verify_tls: false
+    docs_url: https://docs.netbird.io
+    description: Coordinador de la VPN mesh basada en WireGuard que une los servidores.
+  - id: coolify
+    name: Panel Coolify
+    type: http
+    url: https://panel.reigreengroup.com
+    docs_url: https://coolify.io/docs
+    description: PaaS self-hosted que orquesta los despliegues Docker de los servicios.
   - id: base_datos
     name: Base de datos (red local)
     type: mysql
     host: tornadocore.netbird.vpn
     port: 3306
+    docs_url: https://dev.mysql.com/doc/
+    description: Base de datos MySQL/MariaDB compartida en la red NetBird.
     credentials_env:
       user: MYSQL_USER
       password: MYSQL_PASSWORD

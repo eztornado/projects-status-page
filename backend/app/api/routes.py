@@ -28,10 +28,12 @@ async def get_status(session: AsyncSession = Depends(get_session)) -> StatusResp
     now = utcnow()
     since_24h = now - timedelta(hours=24)
     since_7d = now - timedelta(days=7)
-    urls = {cfg.id: display_url(cfg) for cfg in load_services()}
+    cfg_by_id = {cfg.id: cfg for cfg in load_services()}
+    urls = {sid: display_url(cfg) for sid, cfg in cfg_by_id.items()}
 
     result: list[ServiceStatus] = []
     for svc in services:
+        cfg = cfg_by_id.get(svc.id)
         rows = (
             await session.execute(
                 select(CheckResult)
@@ -57,6 +59,8 @@ async def get_status(session: AsyncSession = Depends(get_session)) -> StatusResp
                 name=svc.name,
                 type=svc.type,
                 url=urls.get(svc.id, ""),
+                docs_url=cfg.docs_url if cfg else None,
+                description=cfg.description if cfg else None,
                 status="up" if (last and last.up) else "down",
                 latency_ms=last.latency_ms if last and last.up else None,
                 last_checked=aware(last.ts) if last else None,

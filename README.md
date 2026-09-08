@@ -13,22 +13,22 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 
 ## Servicios iniciales
 
-| Servicio | Destino | Tipo |
-|---|---|---|
-| Web | https://reigreengroup.com | HTTP |
-| API | https://api.reigreengroup.com | HTTP |
-| Portal de clientes | https://clientes.reigreengroup.com | HTTP |
-| OMIE | https://omie.reigreengroup.com | HTTP |
-| OCR | https://ocr.reigreengroup.com | HTTP |
-| Magika | https://magika.reigreengroup.com | HTTP |
-| llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP |
-| N8N | https://n8n.reigreengroup.com | HTTP |
-| Gestión Redes Sociales | http://redes.reigreengroup.com | HTTP |
-| Listmonk | https://listmonk.reigreengroup.com | HTTP |
-| Panel Coolify | https://panel.reigreengroup.com | HTTP |
-| ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP |
-| NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP |
-| Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL |
+| Servicio | Destino | Tipo | Documentación |
+|---|---|---|---|
+| Web | https://reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
+| API | https://api.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
+| Portal de clientes | https://clientes.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
+| OMIE | https://omie.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
+| OCR | https://ocr.reigreengroup.com | HTTP | [Swagger](https://ocr.reigreengroup.com/docs) |
+| Magika | https://magika.reigreengroup.com | HTTP | [Swagger](https://magika.reigreengroup.com/docs) |
+| llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP | [GitHub](https://github.com/ggml-org/llama.cpp) |
+| N8N | https://n8n.reigreengroup.com | HTTP | [docs.n8n.io](https://docs.n8n.io) |
+| Gestión Redes Sociales | https://redes.reigreengroup.com | HTTP | [BrightBean Studio](https://github.com/brightbeanxyz/brightbean-studio) |
+| Listmonk | https://listmonk.reigreengroup.com | HTTP | [listmonk.app/docs](https://listmonk.app/docs) |
+| ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP | [CloudCLI UI](https://github.com/siteboon/claudecodeui) |
+| NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP | [docs.netbird.io](https://docs.netbird.io) |
+| Panel Coolify | https://panel.reigreengroup.com | HTTP | [coolify.io/docs](https://coolify.io/docs) |
+| Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL | [dev.mysql.com/doc](https://dev.mysql.com/doc/) |
 
 ## Añadir un servicio
 
@@ -40,6 +40,8 @@ Editar `backend/services.yaml` y reiniciar (o redesplegar en Coolify):
     type: http
     url: https://ejemplo.com
     verify_tls: true         # opcional (false para NetBird con certificados propios)
+    docs_url: https://…      # opcional: documentación pública (enlace en la tarjeta)
+    description: Qué es y cómo está montado.   # opcional: se muestra en la tarjeta
 ```
 
 Para MySQL:
