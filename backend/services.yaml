@@ -80,14 +80,3 @@ services:
     url: https://panel.reigreengroup.com
     docs_url: https://coolify.io/docs
     description: PaaS self-hosted que orquesta los despliegues Docker de los servicios.
-  - id: base_datos
-    name: Base de datos (red local)
-    type: mysql
-    host: tornadocore.netbird.vpn
-    port: 3306
-    docs_url: https://dev.mysql.com/doc/
-    description: Base de datos MySQL/MariaDB compartida en la red NetBird.
-    credentials_env:
-      user: MYSQL_USER
-      password: MYSQL_PASSWORD
-      database: MYSQL_DATABASE
