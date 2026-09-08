@@ -25,6 +25,7 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 | N8N | https://n8n.reigreengroup.com | HTTP |
 | Gestión Redes Sociales | http://redes.reigreengroup.com | HTTP |
 | Listmonk | https://listmonk.reigreengroup.com | HTTP |
+| Panel Coolify | https://panel.reigreengroup.com | HTTP |
 | ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP |
 | NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP |
 | Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL |

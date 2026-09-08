@@ -39,6 +39,10 @@ services:
     name: Listmonk
     type: http
     url: https://listmonk.reigreengroup.com
+  - id: coolify
+    name: Panel Coolify
+    type: http
+    url: https://panel.reigreengroup.com
   - id: clawbot
     name: ClawBot (red local)
     type: http
