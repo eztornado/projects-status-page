@@ -51,7 +51,7 @@ services:
     name: Gestión Redes Sociales
     type: http
     url: https://redes.reigreengroup.com
-    docs_url: https://github.com/brightbeanxyz/brightbean-studio
+    docs_url: https://redes.reigreengroup.com/api/v1/docs
     description: BrightBean Studio self-hosted para programar y publicar en redes sociales.
   - id: listmonk
     name: Listmonk

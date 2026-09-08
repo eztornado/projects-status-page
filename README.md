@@ -23,7 +23,7 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 | Magika | https://magika.reigreengroup.com | HTTP | [Swagger](https://magika.reigreengroup.com/docs) |
 | llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP | [GitHub](https://github.com/ggml-org/llama.cpp) |
 | N8N | https://n8n.reigreengroup.com | HTTP | [docs.n8n.io](https://docs.n8n.io) |
-| Gestión Redes Sociales | https://redes.reigreengroup.com | HTTP | [BrightBean Studio](https://github.com/brightbeanxyz/brightbean-studio) |
+| Gestión Redes Sociales | https://redes.reigreengroup.com | HTTP | [Swagger](https://redes.reigreengroup.com/api/v1/docs) |
 | Listmonk | https://listmonk.reigreengroup.com | HTTP | [listmonk.app/docs](https://listmonk.app/docs) |
 | ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP | [CloudCLI UI](https://github.com/siteboon/claudecodeui) |
 | NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP | [docs.netbird.io](https://docs.netbird.io) |
