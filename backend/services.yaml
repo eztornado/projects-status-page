@@ -35,10 +35,19 @@ services:
     name: Gestión Redes Sociales
     type: http
     url: http://redes.reigreengroup.com
+  - id: listmonk
+    name: Listmonk
+    type: http
+    url: https://listmonk.reigreengroup.com
   - id: clawbot
     name: ClawBot (red local)
     type: http
-    url: http://clawbot.netbird.vpn
+    url: http://clawbot.netbird.vpn:3001
+  - id: netbird
+    name: NetBird VPN (red local)
+    type: http
+    url: http://coordinador.netbird.vpn
+    verify_tls: false
   - id: base_datos
     name: Base de datos (red local)
     type: mysql

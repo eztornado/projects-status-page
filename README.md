@@ -24,7 +24,9 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 | llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP |
 | N8N | https://n8n.reigreengroup.com | HTTP |
 | Gestión Redes Sociales | http://redes.reigreengroup.com | HTTP |
-| ClawBot (red local) | http://clawbot.netbird.vpn | HTTP |
+| Listmonk | https://listmonk.reigreengroup.com | HTTP |
+| ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP |
+| NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP |
 | Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL |
 
 ## Añadir un servicio
