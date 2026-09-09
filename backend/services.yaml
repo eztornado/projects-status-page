@@ -8,6 +8,7 @@ services:
     name: API
     type: http
     url: https://api.reigreengroup.com
+    docs_url: https://api.reigreengroup.com/api/documentation
     description: >-
       API Laravel 12 (PHP 8.2) con Sanctum y RBAC; borde MCP y migración
       progresiva a Go (go-api).

@@ -16,7 +16,7 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 | Servicio | Destino | Tipo | Documentación |
 |---|---|---|---|
 | Web | https://reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
-| API | https://api.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
+| API | https://api.reigreengroup.com | HTTP | [Documentación API](https://api.reigreengroup.com/api/documentation) |
 | Portal de clientes | https://clientes.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
 | OMIE | https://omie.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
 | OCR | https://ocr.reigreengroup.com | HTTP | [Swagger](https://ocr.reigreengroup.com/docs) |
