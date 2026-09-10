@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     # Nombre del proyecto mostrado en la página (para reutilizar el proyecto tal cual)
-    app_name: str = "Reigreengroup"
+    app_name: str = "Status Page"
 
     # Fichero de servicios a monitorizar (por defecto, backend/services.yaml del
     # repo). Los servicios también pueden definirse con variables SVC_* (ver

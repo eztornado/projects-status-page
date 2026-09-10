@@ -1,34 +1,34 @@
-# Status Page · Reigreengroup
+# Projects Status Page
 
-Página de estado de servicios con backend Python (FastAPI) y frontend React (Vite + TypeScript).
+Página de estado de servicios **autoalojada y de marca blanca**, lista para
+desplegar en Coolify. Un solo contenedor: backend Python (FastAPI) que sirve el
+frontend React (Vite + TypeScript) compilado.
+
+Todo se configura por **variables de entorno** — el nombre del proyecto y la
+lista de servicios monitorizados viajan con el despliegue, no con el código.
+Para dar el proyecto a un cliente basta con crear un recurso nuevo con sus
+variables.
 
 ## Características
 
 - Monitorización **cada 5 minutos** de todos los servicios configurados.
+- Checks **HTTP(S)** (públicos o red privada tipo WireGuard/NetBird) y **MySQL/MariaDB**.
 - Histórico de uptime en SQLite con retención de **7 días** (se limpia automáticamente).
-- Soporta checks **HTTP(S)** (públicos o red privada NetBird) y **MySQL/MariaDB**.
 - API REST: `/api/status`, `/api/history/{id}?days=N`, `/api/health`.
-- Frontend en español con tira de estado 24 h, % de uptime y gráfica de latencia de 7 días.
-- Contenedor único listo para **Coolify** (el backend sirve el frontend compilado).
-- **Marca blanca**: el nombre (`APP_NAME`) y los servicios (`SVC_*`) se configuran por
-  variables de entorno — para una versión pública no hay que tocar código.
+- Frontend en español: tira de estado 24 h, % de uptime, gráfica de latencia de
+  7 días, descripción y enlace a la documentación de cada servicio.
+- Notificaciones por **Telegram** cuando un servicio cae o se recupera (opcional).
 
-## Versión pública (marca blanca)
+## Configuración
 
-Todo se configura por variables de entorno, sin tocar código ni imagen:
+### Nombre del proyecto
 
-| Variable | Función |
-|---|---|
-| `APP_NAME` | Nombre mostrado en la web (banner, pie, título del navegador) y en la API |
-| `SVC_<ID>_<CAMPO>` | Los servicios a monitorizar, una variable por campo |
-| `SERVICES_FILE` | Alternativa: ruta a un fichero YAML montado por volumen |
+`APP_NAME` fija el nombre mostrado en la web (banner, pie, título del
+navegador) y en la API.
 
-Por defecto se usa `backend/services.yaml` de este repositorio (contenido
-genérico de ejemplo, para desarrollo). Si existe alguna variable `SVC_*`, definen
-la lista completa y el fichero se ignora (prioridad: `SVC_*` > `SERVICES_FILE` >
-repo).
+### Servicios
 
-### Servicios por variables de entorno
+Los servicios se definen con variables `SVC_<ID>_<CAMPO>`, una por campo:
 
 ```bash
 APP_NAME=Mi Cliente
@@ -47,65 +47,23 @@ SVC_BD_HOST=db.interno
 SVC_BD_PORT=3306
 ```
 
-Campos HTTP: `NAME`, `URL`, `DOCS_URL`, `DESCRIPTION`, `VERIFY_TLS` (defecto
-`true`). Campos MySQL: `TYPE=mysql`, `NAME`, `HOST`, `PORT` (defecto `3306`).
-El `ID` se usa como clave del histórico y para ordenar (alfabético).
+| Tipo | Campos |
+|---|---|
+| HTTP | `NAME`, `URL`, `DOCS_URL`, `DESCRIPTION`, `VERIFY_TLS` (defecto `true`) |
+| MySQL | `TYPE=mysql`, `NAME`, `HOST`, `PORT` (defecto `3306`) |
 
-### En Coolify
-
-1. Crea el recurso desde este repositorio y añade en la UI las variables
-   `APP_NAME` y las `SVC_*` que necesites.
-2. Mantén el volumen `status-data` en `/data` (histórico persistente).
-3. Healthcheck contra `/api/health`.
-
-Ni la imagen ni el repositorio contienen infraestructura privada, y cambiar
-servicios es editar variables y redesplegar.
-
-## Servicios iniciales
-
-Los de producción de Reigreengroup se definen por variables de entorno
-(fichero `services.env`, no publicado en el repositorio). El
-`backend/services.yaml` del repo es solo un ejemplo genérico.
-
-## Añadir un servicio
-
-En producción, añade variables `SVC_*` y redespliega (ver "Versión pública").
-
-Para la vía fichero, editar `backend/services.yaml` (o tu `SERVICES_FILE`):
-
-```yaml
-  - id: mi_servicio          # identificador único
-    name: Mi Servicio        # nombre mostrado
-    type: http
-    url: https://ejemplo.com
-    verify_tls: true         # opcional (false para NetBird con certificados propios)
-    docs_url: https://…      # opcional: documentación pública (enlace en la tarjeta)
-    description: Qué es y cómo está montado.   # opcional: se muestra en la tarjeta
-```
-
-Para MySQL:
-
-```yaml
-  - id: mi_bd
-    name: Mi BD
-    type: mysql
-    host: mihost.netbird.vpn
-    port: 3306
-    credentials_env:         # nombres de variables de entorno (opcionales)
-      user: MI_BD_USER
-      password: MI_BD_PASS
-      database: MI_BD_DB
-```
-
-Sin credenciales el check MySQL se limita a verificar la conexión TCP.
+- El `ID` es la clave del histórico y ordena la lista (alfabético).
+- `DOCS_URL` añade un enlace "Documentación" en la tarjeta y `DESCRIPTION` una
+  breve línea de arquitectura.
+- Con credenciales MySQL (`MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`
+  globales) el check valida el login; sin ellas, solo la conexión TCP.
 
 ## Variables de entorno
 
 | Variable | Defecto | Descripción |
 |---|---|---|
-| **`APP_NAME`** | `Reigreengroup` | Nombre del proyecto mostrado en la web y la API (despliegues de marca blanca) |
-| **`SVC_<ID>_<CAMPO>`** | — | Servicios a monitorizar (ver "Versión pública") |
-| `SERVICES_FILE` | vacío | Ruta alternativa al YAML de servicios |
+| **`APP_NAME`** | `Status Page` | Nombre del proyecto mostrado en la web y la API |
+| **`SVC_<ID>_<CAMPO>`** | — | Servicios a monitorizar (ver "Servicios") |
 | `PORT` | `8000` | Puerto del contenedor |
 | `DATA_DIR` | `/data` | Dónde se guarda `status.db` (montar volumen) |
 | `CHECK_INTERVAL_MINUTES` | `5` | Intervalo de comprobación |
@@ -120,11 +78,22 @@ Sin credenciales el check MySQL se limita a verificar la conexión TCP.
 
 Ver `.env.example`.
 
+## Despliegue en Coolify
+
+1. Crear el recurso **Docker Compose** apuntando a este repositorio.
+2. Añadir en la UI las variables `APP_NAME` y `SVC_*` del cliente.
+3. Mantener el volumen `status-data` en `/data` (el histórico sobrevive a los
+   despliegues).
+4. Exponer el puerto `8000` y configurar el healthcheck contra `/api/health`.
+
+> **Nota red privada:** los servicios internos (p. ej. `.netbird.vpn`) solo son
+> accesibles desde servidores dentro de esa red (el host de Coolify debe tener
+> el cliente conectado).
+
 ## Desarrollo local
 
 ```bash
-# Backend (con los servicios reales de producción, si tienes services.env)
-set -a; source services.env 2>/dev/null; set +a
+# Backend
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
 DATA_DIR=./data .venv/bin/uvicorn app.main:app --app-dir backend --reload
 
@@ -132,15 +101,9 @@ DATA_DIR=./data .venv/bin/uvicorn app.main:app --app-dir backend --reload
 cd frontend && npm install && npm run dev
 ```
 
-## Despliegue en Coolify
-
-1. Crear recurso **Docker Compose** apuntando a este repositorio.
-2. Definir las variables de entorno necesarias (p. ej. `MYSQL_*`) en la UI.
-3. Exponer el puerto `8000` y configurar el healthcheck contra `/api/health`.
-4. El volumen `status-data` persiste la base de datos entre despliegues.
-
-> **Nota NetBird:** los servicios `.netbird.vpn` solo son accesibles desde servidores
-> dentro de la red NetBird (el host de Coolify debe tener el cliente NetBird conectado).
+Sin variables `SVC_*` se usa `backend/services.yaml`, un ejemplo genérico pensado
+para desarrollo. Para probar con servicios reales, exporta las variables antes
+de arrancar (p. ej. `set -a; source services.env; set +a`).
 
 ## Docker local
 
