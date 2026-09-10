@@ -10,29 +10,68 @@ Página de estado de servicios con backend Python (FastAPI) y frontend React (Vi
 - API REST: `/api/status`, `/api/history/{id}?days=N`, `/api/health`.
 - Frontend en español con tira de estado 24 h, % de uptime y gráfica de latencia de 7 días.
 - Contenedor único listo para **Coolify** (el backend sirve el frontend compilado).
+- **Marca blanca**: el nombre (`APP_NAME`) y los servicios (`SVC_*`) se configuran por
+  variables de entorno — para una versión pública no hay que tocar código.
+
+## Versión pública (marca blanca)
+
+Todo se configura por variables de entorno, sin tocar código ni imagen:
+
+| Variable | Función |
+|---|---|
+| `APP_NAME` | Nombre mostrado en la web (banner, pie, título del navegador) y en la API |
+| `SVC_<ID>_<CAMPO>` | Los servicios a monitorizar, una variable por campo |
+| `SERVICES_FILE` | Alternativa: ruta a un fichero YAML montado por volumen |
+
+Por defecto se usa `backend/services.yaml` de este repositorio (contenido
+genérico de ejemplo, para desarrollo). Si existe alguna variable `SVC_*`, definen
+la lista completa y el fichero se ignora (prioridad: `SVC_*` > `SERVICES_FILE` >
+repo).
+
+### Servicios por variables de entorno
+
+```bash
+APP_NAME=Mi Cliente
+
+SVC_WEB_NAME=Web
+SVC_WEB_URL=https://web.cliente.com
+
+SVC_API_NAME=API
+SVC_API_URL=https://api.cliente.com
+SVC_API_DOCS_URL=https://api.cliente.com/docs
+SVC_API_DESCRIPTION=API pública del cliente
+
+SVC_BD_TYPE=mysql
+SVC_BD_NAME=Base de datos
+SVC_BD_HOST=db.interno
+SVC_BD_PORT=3306
+```
+
+Campos HTTP: `NAME`, `URL`, `DOCS_URL`, `DESCRIPTION`, `VERIFY_TLS` (defecto
+`true`). Campos MySQL: `TYPE=mysql`, `NAME`, `HOST`, `PORT` (defecto `3306`).
+El `ID` se usa como clave del histórico y para ordenar (alfabético).
+
+### En Coolify
+
+1. Crea el recurso desde este repositorio y añade en la UI las variables
+   `APP_NAME` y las `SVC_*` que necesites.
+2. Mantén el volumen `status-data` en `/data` (histórico persistente).
+3. Healthcheck contra `/api/health`.
+
+Ni la imagen ni el repositorio contienen infraestructura privada, y cambiar
+servicios es editar variables y redesplegar.
 
 ## Servicios iniciales
 
-| Servicio | Destino | Tipo | Documentación |
-|---|---|---|---|
-| Web | https://reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
-| API | https://api.reigreengroup.com | HTTP | [Documentación API](https://api.reigreengroup.com/api/documentation) |
-| Portal de clientes | https://clientes.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
-| OMIE | https://omie.reigreengroup.com | HTTP | — (arquitectura en tarjeta) |
-| OCR | https://ocr.reigreengroup.com | HTTP | [Swagger](https://ocr.reigreengroup.com/docs) |
-| Magika | https://magika.reigreengroup.com | HTTP | [Swagger](https://magika.reigreengroup.com/docs) |
-| llama.cpp (red local) | http://cos-alicante.netbird.vpn:8080/health | HTTP | [GitHub](https://github.com/ggml-org/llama.cpp) |
-| N8N | https://n8n.reigreengroup.com | HTTP | [docs.n8n.io](https://docs.n8n.io) |
-| Gestión Redes Sociales | https://redes.reigreengroup.com | HTTP | [Swagger](https://redes.reigreengroup.com/api/v1/docs) |
-| Listmonk | https://listmonk.reigreengroup.com | HTTP | [listmonk.app/docs](https://listmonk.app/docs) |
-| ClawBot (red local) | http://clawbot.netbird.vpn:3001 | HTTP | [CloudCLI UI](https://github.com/siteboon/claudecodeui) |
-| NetBird VPN (red local) | http://coordinador.netbird.vpn | HTTP | [docs.netbird.io](https://docs.netbird.io) |
-| Panel Coolify | https://panel.reigreengroup.com | HTTP | [coolify.io/docs](https://coolify.io/docs) |
-| Base de datos (red local) | tornadocore.netbird.vpn:3306 | MySQL | [dev.mysql.com/doc](https://dev.mysql.com/doc/) |
+Los de producción de Reigreengroup se definen por variables de entorno
+(fichero `services.env`, no publicado en el repositorio). El
+`backend/services.yaml` del repo es solo un ejemplo genérico.
 
 ## Añadir un servicio
 
-Editar `backend/services.yaml` y reiniciar (o redesplegar en Coolify):
+En producción, añade variables `SVC_*` y redespliega (ver "Versión pública").
+
+Para la vía fichero, editar `backend/services.yaml` (o tu `SERVICES_FILE`):
 
 ```yaml
   - id: mi_servicio          # identificador único
@@ -64,6 +103,9 @@ Sin credenciales el check MySQL se limita a verificar la conexión TCP.
 
 | Variable | Defecto | Descripción |
 |---|---|---|
+| **`APP_NAME`** | `Reigreengroup` | Nombre del proyecto mostrado en la web y la API (despliegues de marca blanca) |
+| **`SVC_<ID>_<CAMPO>`** | — | Servicios a monitorizar (ver "Versión pública") |
+| `SERVICES_FILE` | vacío | Ruta alternativa al YAML de servicios |
 | `PORT` | `8000` | Puerto del contenedor |
 | `DATA_DIR` | `/data` | Dónde se guarda `status.db` (montar volumen) |
 | `CHECK_INTERVAL_MINUTES` | `5` | Intervalo de comprobación |
@@ -81,7 +123,8 @@ Ver `.env.example`.
 ## Desarrollo local
 
 ```bash
-# Backend
+# Backend (con los servicios reales de producción, si tienes services.env)
+set -a; source services.env 2>/dev/null; set +a
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
 DATA_DIR=./data .venv/bin/uvicorn app.main:app --app-dir backend --reload
 

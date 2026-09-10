@@ -80,7 +80,10 @@ async def get_status(session: AsyncSession = Depends(get_session)) -> StatusResp
 
     overall = "operational" if all(s.status == "up" for s in result) else "outage"
     return StatusResponse(
-        overall=overall, generated_at=now.replace(tzinfo=timezone.utc), services=result
+        overall=overall,
+        project_name=settings.app_name,
+        generated_at=now.replace(tzinfo=timezone.utc),
+        services=result,
     )
 
 

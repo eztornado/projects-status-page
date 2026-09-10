@@ -27,6 +27,7 @@ export interface ServiceStatus {
 
 export interface StatusResponse {
   overall: "operational" | "outage";
+  project_name: string;
   generated_at: string;
   services: ServiceStatus[];
 }

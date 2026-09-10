@@ -32,6 +32,7 @@ class ServiceStatus(BaseModel):
 
 class StatusResponse(BaseModel):
     overall: str  # "operational" | "outage"
+    project_name: str
     generated_at: datetime
     services: list[ServiceStatus]
 

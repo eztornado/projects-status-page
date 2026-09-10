@@ -7,6 +7,8 @@ services:
       - status-data:/data
     environment:
       - PORT=8000
+      - APP_NAME=${APP_NAME:-Reigreengroup}
+      - SERVICES_FILE=${SERVICES_FILE:-}
       - MYSQL_USER=${MYSQL_USER:-}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-}
       - MYSQL_DATABASE=${MYSQL_DATABASE:-}

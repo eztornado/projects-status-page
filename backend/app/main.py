@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
     scheduler.shutdown(wait=False)
 
 
-app = FastAPI(title="Reigreengroup Status", lifespan=lifespan)
+app = FastAPI(title=f"{settings.app_name} · Status", lifespan=lifespan)
 app.include_router(router)
 
 if STATIC_DIR.is_dir():

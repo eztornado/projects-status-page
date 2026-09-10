@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useStatus } from "./hooks/useStatus";
 import { ServiceCard } from "./components/ServiceCard";
 import { LatencyChart } from "./components/LatencyChart";
@@ -17,6 +18,10 @@ export default function App() {
   const allUp = data?.overall === "operational";
   const downCount = data?.services.filter((s) => s.status === "down").length ?? 0;
 
+  useEffect(() => {
+    if (data) document.title = `Estado del Sistema · ${data.project_name}`;
+  }, [data]);
+
   return (
     <div className="container">
       {error && <div className="error-box">No se pudo contactar con el servidor: {error}</div>}
@@ -29,12 +34,18 @@ export default function App() {
               aria-hidden
             />
             <span>
-              Reigreengroup ·{" "}
-              {loading
-                ? "Comprobando…"
-                : allUp
-                  ? "Todos los sistemas operativos"
-                  : `Interrupción parcial — ${downCount} servicio${downCount !== 1 ? "s" : ""} caído${downCount !== 1 ? "s" : ""}`}
+              {data ? (
+                <>
+                  {data.project_name} ·{" "}
+                  {loading
+                    ? "Comprobando…"
+                    : allUp
+                      ? "Todos los sistemas operativos"
+                      : `Interrupción parcial — ${downCount} servicio${downCount !== 1 ? "s" : ""} caído${downCount !== 1 ? "s" : ""}`}
+                </>
+              ) : (
+                "Comprobando estado…"
+              )}
             </span>
           </div>
           <div className="banner-sub">
@@ -58,7 +69,7 @@ export default function App() {
       {data && <LatencyChart services={data.services} />}
 
       <footer className="footer">
-        <span>Reigreengroup — Estado del sistema</span>
+        <span>{data ? `${data.project_name} — Estado del sistema` : "Estado del sistema"}</span>
         <span>Comprobaciones automáticas cada 5 minutos · Histórico de 7 días</span>
       </footer>
     </div>

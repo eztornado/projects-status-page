@@ -6,6 +6,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    # Nombre del proyecto mostrado en la página (para reutilizar el proyecto tal cual)
+    app_name: str = "Reigreengroup"
+
+    # Fichero de servicios a monitorizar (por defecto, backend/services.yaml del
+    # repo). Los servicios también pueden definirse con variables SVC_* (ver
+    # services_config), que tienen prioridad.
+    services_file: Path | None = None
+
     port: int = 8000
     data_dir: Path = Path("/data")
     check_interval_minutes: int = 5
