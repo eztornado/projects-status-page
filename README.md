@@ -9,6 +9,8 @@ lista de servicios monitorizados viajan con el despliegue, no con el código.
 Para dar el proyecto a un cliente basta con crear un recurso nuevo con sus
 variables.
 
+Proyecto de ejemplo Producción: https://status.reigreengroup.com
+
 ## Características
 
 - Monitorización **cada 5 minutos** de todos los servicios configurados.
